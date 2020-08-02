@@ -3,20 +3,14 @@ sudo: required
 services:
 - docker
 
-script:
-- cd reverse_proxy && docker build -t alanpeng/demo-atsea-sample-shop-reverse_proxy:$TRAVIS_BRANCH . && cd ..
-- cd database && docker build -t alanpeng/demo-atsea-sample-shop-database:$TRAVIS_BRANCH . && cd ..
-- cd payment_gateway && docker build -t alanpeng/demo-atsea-sample-shop-payment_gateway:$TRAVIS_BRANCH . && cd ..
-- cd app && docker build -t alanpeng/demo-atsea-sample-shop-app:$TRAVIS_BRANCH . && cd ..
-
-deploy:
-  provider: script
-  skip_cleanup: true
+jobs:
   script:
+  - cd reverse_proxy && docker build -t alanpeng/demo-atsea-sample-shop-reverse_proxy:$TRAVIS_BRANCH . && cd ..
+  - cd database && docker build -t alanpeng/demo-atsea-sample-shop-database:$TRAVIS_BRANCH . && cd ..
+  - cd payment_gateway && docker build -t alanpeng/demo-atsea-sample-shop-payment_gateway:$TRAVIS_BRANCH . && cd ..
+  - cd app && docker build -t alanpeng/demo-atsea-sample-shop-app:$TRAVIS_BRANCH . && cd ..
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - docker push alanpeng/demo-atsea-sample-shop-reverse_proxy:$TRAVIS_BRANCH
   - docker push alanpeng/demo-atsea-sample-shop-database:$TRAVIS_BRANCH
   - docker push alanpeng/demo-atsea-sample-shop-payment_gateway:$TRAVIS_BRANCH
   - docker push alanpeng/demo-atsea-sample-shop-app:$TRAVIS_BRANCH
-  on:
-    all_branches: true
