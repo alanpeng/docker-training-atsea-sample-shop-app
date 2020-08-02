@@ -11,6 +11,7 @@ script:
 
 deploy:
   provider: script
+  deploy.skip_cleanup: true
   script:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - docker push alanpeng/demo-atsea-sample-shop-reverse_proxy:$TRAVIS_BRANCH
